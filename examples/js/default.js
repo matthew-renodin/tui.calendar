@@ -58,7 +58,7 @@
      */
     function getTimeTemplate(schedule, isAllDay) {
         var html = [];
-        var start = moment(schedule.start.toUTCString());
+        var start = moment(new Date(schedule.start).toUTCString());
         if (!isAllDay) {
             html.push('<strong>' + start.format('HH:mm') + '</strong> ');
         }
