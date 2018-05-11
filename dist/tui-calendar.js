@@ -5012,6 +5012,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {string} scheduleId - ID of a schedule to update
 	 * @param {string} calendarId - calendarId of the schedule to update
 	 * @param {Schedule} scheduleData - schedule data to update
+	 * @param {boolean} [silent=false] - no auto render after creation when set true
 	 * @example
 	 * calendar.on('beforeUpdateSchedule', function(event) {
 	 *     var schedule = event.schedule;
@@ -5023,7 +5024,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *     });
 	 * });
 	 */
-	Calendar.prototype.updateSchedule = function(scheduleId, calendarId, scheduleData) {
+	Calendar.prototype.updateSchedule = function(scheduleId, calendarId, scheduleData, silent) {
 	    var ctrl = this._controller,
 	        ownSchedules = ctrl.schedules,
 	        schedule = ownSchedules.single(function(model) {
@@ -5032,7 +5033,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    if (schedule) {
 	        ctrl.updateSchedule(schedule, scheduleData);
-	        this.render();
+	
+	        if (!silent) {
+	            this.render();
+	        }
 	    }
 	};
 	
@@ -5040,8 +5044,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Delete a schedule.
 	 * @param {string} scheduleId - ID of schedule to delete
 	 * @param {string} calendarId - calendarId of the schedule to delete
+	 * @param {boolean} [silent=false] - no auto render after creation when set true
 	 */
-	Calendar.prototype.deleteSchedule = function(scheduleId, calendarId) {
+	Calendar.prototype.deleteSchedule = function(scheduleId, calendarId, silent) {
 	    var ctrl = this._controller,
 	        ownSchedules = ctrl.schedules,
 	        schedule = ownSchedules.single(function(model) {
@@ -5053,7 +5058,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    ctrl.deleteSchedule(schedule);
-	    this.render();
+	    if (!silent) {
+	        this.render();
+	    }
 	};
 	
 	/**********
