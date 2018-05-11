@@ -4674,8 +4674,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * @typedef {object} Options - calendar option object
 	 * @property {string} [defaultView='week'] - default view of calendar
-	 * @property {boolean} [taskView=true] - show the milestone and task in weekly, daily view
-	 * @property {boolean} [scheduleView=true] - show the all day and time grid in weekly, daily view
+	 * @property {boolean|Array.<string>} [taskView=true] - show the milestone and task in weekly, daily view. If the value is array, it can be <b>['milestone', 'task']</b>.
+	 * @property {boolean|Array.<string>} [scheduleView=true] - show the all day and time grid in weekly, daily view.  If the value is array, it can be <b>['allday', 'time']</b>.
 	 * @property {themeConfig} [theme=themeConfig] - custom theme options
 	 * @property {Template} [template={}] - template options
 	 * @property {WeekOptions} [week={}] - options for week view
@@ -4719,8 +4719,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @example
 	 * var calendar = new tui.Calendar(document.getElementById('calendar'), {
 	 *     defaultView: 'week',
-	 *     taskView: true,
-	 *     scheduleView: true,
+	 *     taskView: true,    // can be also ['milestone', 'task']
+	 *     scheduleView: true,  // can be also ['allday', 'time']
 	 *     template: {
 	 *         milestone: function(schedule) {
 	 *             return '<span style="color:red;"><i class="fa fa-flag"></i> ' + schedule.title + '</span>';
@@ -5798,7 +5798,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	Calendar.prototype.setOptions = function(options, silent) {
 	    util.forEach(options, function(value, name) {
-	        if (util.isObject(value)) {
+	        if (util.isObject(value) && !util.isArray(value)) {
 	            util.forEach(value, function(innerValue, innerName) {
 	                this._options[name][innerName] = innerValue;
 	            }, this);
@@ -9553,6 +9553,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var weekView, dayNameContainer, dayNameView, vLayoutContainer, vLayout;
 	    var createView, onSaveNewSchedule, onSetCalendars, lastVPanel;
 	    var detailView, onShowDetailPopup, onDeleteSchedule, onShowEditPopup, onEditSchedule;
+	    var taskView = options.taskView;
+	    var scheduleView = options.scheduleView;
+	    var viewVisibilities = {
+	        'milestone': util.isArray(taskView) ? util.inArray('milestone', taskView) >= 0 : taskView,
+	        'task': util.isArray(taskView) ? util.inArray('task', taskView) >= 0 : taskView,
+	        'allday': util.isArray(scheduleView) ? util.inArray('allday', scheduleView) >= 0 : scheduleView,
+	        'time': util.isArray(scheduleView) ? util.inArray('time', scheduleView) >= 0 : scheduleView
+	    };
 	
 	    // Make panels by view sequence and visibilities
 	    util.forEach(DEFAULT_PANELS, function(panel) {
@@ -9562,11 +9570,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        panels.push(panel);
 	
 	        // Change visibilities
-	        if (name === 'milestone' || name === 'task') {
-	            panel.show = options.taskView;
-	        } else if (name === 'allday' || name === 'time') {
-	            panel.show = options.scheduleView;
-	        }
+	        panel.show = viewVisibilities[name];
 	
 	        if (panel.show) {
 	            if (vpanels.length) {
