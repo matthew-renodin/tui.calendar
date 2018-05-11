@@ -1,6 +1,6 @@
 /*!
  * tui-calendar
- * @version 1.1.0 | Fri Apr 27 2018
+ * @version 1.2.0-alpha | Fri May 11 2018
  * @author NHNEnt FE Development Lab <dl_javascript@nhnent.com>
  * @license undefined
  */
@@ -302,7 +302,6 @@
 .tui-full-calendar-dayname-leftmargin {
   position: relative;
   height: 100%;
-  margin-left: 77px;
 }
 .tui-full-calendar-dayname-date {
   font-size: 26px;
@@ -413,6 +412,18 @@
   margin: -4px 0 0 -5px;
   border-radius: 50%;
   z-index: 99;
+}
+.tui-full-calendar-timegrid-sticky-container {
+  position: absolute;
+  top: 0;
+  text-align: right;
+  z-index: 99;
+  display: table;
+}
+.tui-full-calendar-timegrid-timezone-label {
+  display: table-cell;
+  vertical-align: middle;
+  padding-right: 7px;
 }
 .tui-full-calendar-time-date {
   position: absolute;
