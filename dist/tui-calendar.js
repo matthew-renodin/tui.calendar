@@ -1,8 +1,8 @@
 /*!
- * tui-calendar
+ * TOAST UI Calendar
  * @version 1.2.0-alpha | Fri May 11 2018
  * @author NHNEnt FE Development Lab <dl_javascript@nhnent.com>
- * @license undefined
+ * @license MIT
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -512,12 +512,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return (datetime.format(start, 'YYYY.MM.DD hh:mm tt') + ' - ' + datetime.format(end, endFormat));
 	    },
 	    'popupDetailLocation-tmpl': function(schedule) {
-	        return schedule.raw.location;
+	        return schedule.location;
 	    },
 	    'popupDetailUser-tmpl': function(schedule) {
-	        var creator = schedule.raw.creator;
+	        var creator = util.pick(schedule, 'raw', 'creator', 'name');
 	
-	        return creator ? creator.name : '';
+	        return creator;
 	    },
 	    'popupDetailState-tmpl': function(schedule) {
 	        return schedule.state || 'Busy';
@@ -8745,7 +8745,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        return;
 	                    }
 	
-	                    startTime = viewModel.getStarts().getTime() + 1;
+	                    startTime = viewModel.getStarts().getTime();
 	                    endTime = viewModel.getEnds().getTime() - 1;
 	
 	                    for (i = (col + 1); i < maxRowLength; i += 1) {
